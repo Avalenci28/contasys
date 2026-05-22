@@ -33,7 +33,7 @@ function formatCOP(value) {
 
 export default function DashboardPreview() {
   return (
-    <section className={styles.wrapper}>
+    <section className={styles.wrapper} id="demo">
       <div className={styles.container}>
         {/* Window chrome */}
         <div className={styles.windowBar}>
