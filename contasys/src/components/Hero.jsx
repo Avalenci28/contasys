@@ -1,6 +1,9 @@
 import styles from './Hero.module.css'
 
-export default function Hero() {
+export default function Hero({
+  onOpenRegister,
+  onScrollDemo,
+}) {
   return (
     <section className={styles.hero}>
       <div className={styles.container}>
@@ -20,13 +23,15 @@ export default function Hero() {
         </p>
 
         <div className={styles.actions}>
-          <button className={styles.btnPrimary}>
+          <button type="button" className={styles.btnPrimary} onClick={onOpenRegister}>
             Comenzar gratis
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M5 12h14M12 5l7 7-7 7"/>
             </svg>
           </button>
-          <button className={styles.btnSecondary}>Ver demostración</button>
+          <button type="button" className={styles.btnSecondary} onClick={onScrollDemo}>
+            Ver demostración
+          </button>
         </div>
 
         <div className={styles.trust}>

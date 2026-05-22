@@ -7,7 +7,9 @@ const LINKS = {
   'Legal':     ['Privacidad', 'Términos de uso', 'Cookies'],
 }
 
-export default function Footer() {
+export default function Footer({
+  onScroll,
+}) {
   return (
     <footer className={styles.footer}>
       <div className={styles.container}>
@@ -27,7 +29,25 @@ export default function Footer() {
                 <ul>
                   {items.map((item) => (
                     <li key={item}>
-                      <a href="#" className={styles.link}>{item}</a>
+                      <a
+                        href="#"
+                        className={styles.link}
+                        onClick={(e) => {
+                          e.preventDefault()
+                          const map = {
+                            Dashboard: 'demo',
+                            Inventario: 'features',
+                            Ventas: 'modulos',
+                            Reportes: 'stats',
+                            Usuarios: 'cta',
+                          }
+
+                          const id = map[item]
+                          if (id) onScroll?.(id)
+                        }}
+                      >
+                        {item}
+                      </a>
                     </li>
                   ))}
                 </ul>

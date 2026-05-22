@@ -1,6 +1,9 @@
 import styles from './CallToAction.module.css'
 
-export default function CallToAction() {
+export default function CallToAction({
+  onOpenRegister,
+  onScrollModules,
+}) {
   return (
     <section className={styles.section} id="cta">
       <div className={styles.container}>
@@ -14,13 +17,15 @@ export default function CallToAction() {
             Accede desde cualquier dispositivo con conexión a internet.
           </p>
           <div className={styles.actions}>
-            <button className={styles.btnPrimary}>
+            <button type="button" className={styles.btnPrimary} onClick={onOpenRegister}>
               Crear cuenta gratuita
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M5 12h14M12 5l7 7-7 7"/>
               </svg>
             </button>
-            <button className={styles.btnOutline}>Conocer los módulos</button>
+            <button type="button" className={styles.btnOutline} onClick={onScrollModules}>
+              Conocer los módulos
+            </button>
           </div>
           <div className={styles.checks}>
             {['Configuración en minutos', 'Soporte incluido', 'Datos seguros y respaldados'].map((item) => (

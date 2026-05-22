@@ -9,7 +9,10 @@ const NAV_LINKS = [
   { label: 'Soporte',    href: '#cta' },
 ]
 
-export default function Navbar() {
+export default function Navbar({
+  onOpenLogin,
+  onOpenRegister,
+}) {
   const [menuOpen, setMenuOpen] = useState(false)
 
   return (
@@ -28,8 +31,12 @@ export default function Navbar() {
         </ul>
 
         <div className={styles.actions}>
-          <button className={styles.btnOutline}>Iniciar sesión</button>
-          <button className={styles.btnPrimary}>Comenzar gratis</button>
+          <button type="button" className={styles.btnOutline} onClick={onOpenLogin}>
+            Iniciar sesión
+          </button>
+          <button type="button" className={styles.btnPrimary} onClick={onOpenRegister}>
+            Comenzar gratis
+          </button>
         </div>
 
         <button
