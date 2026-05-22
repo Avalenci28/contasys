@@ -1,0 +1,139 @@
+.section {
+  padding: 5rem 2rem;
+  background: #FAFAF9;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.sectionLabel {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--green-700);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.sectionTitle {
+  font-family: var(--font-serif);
+  font-size: clamp(28px, 4vw, 38px);
+  letter-spacing: -0.5px;
+  color: var(--gray-900);
+  margin-bottom: 3rem;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 14px 16px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--transition), border-color var(--transition);
+}
+
+.listItem:hover {
+  background: var(--green-50);
+  border-color: var(--green-100);
+}
+
+.listItemActive {
+  background: var(--green-50) !important;
+  border-color: var(--green-400) !important;
+}
+
+.num {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--gray-200);
+  color: var(--gray-600);
+  font-size: 12px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background var(--transition), color var(--transition);
+}
+
+.numActive {
+  background: var(--green-700) !important;
+  color: #fff !important;
+}
+
+.listTitle {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--gray-800);
+}
+
+.detail {
+  background: #fff;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-xl);
+  padding: 2.5rem;
+  min-height: 280px;
+}
+
+.detailNum {
+  font-family: var(--font-serif);
+  font-size: 48px;
+  color: var(--green-100);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.detailTitle {
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--gray-900);
+  margin-bottom: 1rem;
+}
+
+.detailDesc {
+  font-size: 15px;
+  color: var(--gray-600);
+  line-height: 1.75;
+  margin-bottom: 1.5rem;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag {
+  padding: 5px 12px;
+  background: var(--green-50);
+  color: var(--green-700);
+  border: 1px solid var(--green-100);
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .layout { grid-template-columns: 1fr; }
+}

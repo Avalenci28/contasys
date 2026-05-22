@@ -1,0 +1,74 @@
+.footer {
+  background: var(--gray-900);
+  padding: 4rem 2rem 2rem;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.top {
+  display: grid;
+  grid-template-columns: 1.2fr 2fr;
+  gap: 4rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  margin-bottom: 2rem;
+}
+
+.brand {}
+
+.brandDesc {
+  font-size: 14px;
+  color: #6C757D;
+  line-height: 1.7;
+  margin-top: 1rem;
+}
+
+.linksGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.linkGroup {}
+
+.groupTitle {
+  font-size: 12px;
+  font-weight: 500;
+  color: #fff;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.link {
+  display: block;
+  font-size: 14px;
+  color: #6C757D;
+  padding: 4px 0;
+  transition: color var(--transition);
+}
+
+.link:hover {
+  color: var(--green-400);
+}
+
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.copy {
+  font-size: 13px;
+  color: #4a4f55;
+}
+
+@media (max-width: 768px) {
+  .top { grid-template-columns: 1fr; gap: 2rem; }
+  .linksGrid { grid-template-columns: repeat(2, 1fr); }
+}
