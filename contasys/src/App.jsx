@@ -8,10 +8,14 @@ import Stats from './components/Stats'
 import CallToAction from './components/CallToAction'
 import Footer from './components/Footer'
 import Modal from './components/Modal'
+import { supabase } from './supabaseClient'
+import { upsertProfile } from './supabaseProfile'
 
 function isValidEmail(value) {
+
   return /.+@.+\..+/.test(value)
 }
+
 
 export default function App() {
   const [activePage, setActivePage] = useState('home')
@@ -69,11 +73,27 @@ export default function App() {
             setLoginErrors(nextErrors)
 
             if (Object.keys(nextErrors).length === 0) {
-              setLoginSuccess('Inicio de sesión exitoso (demo).')
-              alert('Inicio de sesión exitoso (demo).')
+              ;(async () => {
+                try {
+                  const { error } = await supabase.auth.signInWithPassword({
+                    email: loginEmail.trim(),
+                    password: loginPassword,
+                  })
+
+                  if (error) throw error
+
+                  setLoginSuccess('Inicio de sesión exitoso.')
+                  alert('Inicio de sesión exitoso.')
+                  closeAllModals()
+                } catch (err) {
+                  const msg = err?.message || 'Error al iniciar sesión'
+                  setLoginErrors({ _form: msg })
+                }
+              })()
             }
           }}
         >
+
           <div style={{ display: 'grid', gap: 12 }}>
             <div style={{ display: 'grid', gap: 6 }}>
               <label style={{ fontSize: 13, fontWeight: 600 }} htmlFor="login-email">Email</label>
@@ -96,7 +116,13 @@ export default function App() {
               {loginErrors.email ? (
                 <p style={{ margin: 0, color: '#ff6b6b', fontSize: 12 }}>{loginErrors.email}</p>
               ) : null}
+              {loginErrors._form ? (
+                <p style={{ margin: 0, color: '#ff6b6b', fontSize: 12, fontWeight: 700 }}>
+                  {loginErrors._form}
+                </p>
+              ) : null}
             </div>
+
 
             <div style={{ display: 'grid', gap: 6 }}>
               <label style={{ fontSize: 13, fontWeight: 600 }} htmlFor="login-password">Contraseña</label>
@@ -163,11 +189,37 @@ export default function App() {
             setRegisterErrors(nextErrors)
 
             if (Object.keys(nextErrors).length === 0) {
-              setRegisterSuccess('Registro exitoso (demo).')
-              alert('Registro exitoso (demo).')
+              ;(async () => {
+                try {
+                  const { data, error } = await supabase.auth.signUp({
+                    email: registerEmail.trim(),
+                    password: registerPassword,
+                  })
+
+                  if (error) throw error
+
+                  const userId = data?.user?.id
+
+                  await upsertProfile({
+                    supabase,
+                    userId,
+                    name: registerName.trim(),
+                    email: registerEmail.trim(),
+                  })
+
+
+                  setRegisterSuccess('Registro exitoso. Revisa tu correo si aplica verificación.')
+                  alert('Registro exitoso. Revisa tu correo si aplica verificación.')
+                  closeAllModals()
+                } catch (err) {
+                  const msg = err?.message || 'Error al registrarse'
+                  setRegisterErrors({ _form: msg })
+                }
+              })()
             }
           }}
         >
+
           <div style={{ display: 'grid', gap: 12 }}>
             <div style={{ display: 'grid', gap: 6 }}>
               <label style={{ fontSize: 13, fontWeight: 600 }} htmlFor="reg-name">Nombre</label>
@@ -259,7 +311,13 @@ export default function App() {
               {registerErrors.confirm ? (
                 <p style={{ margin: 0, color: '#ff6b6b', fontSize: 12 }}>{registerErrors.confirm}</p>
               ) : null}
+              {registerErrors._form ? (
+                <p style={{ margin: 0, color: '#ff6b6b', fontSize: 12, fontWeight: 700 }}>
+                  {registerErrors._form}
+                </p>
+              ) : null}
             </div>
+
 
             {registerSuccess ? (
               <p style={{ margin: 0, color: '#5CFFB6', fontSize: 13, fontWeight: 700 }}>{registerSuccess}</p>
