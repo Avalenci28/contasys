@@ -41,28 +41,8 @@ contasys/
 - Node.js 18 o superior
 - npm o yarn
 
-### Pasos
 
-```bash
-# 1. Instalar dependencias
-npm install
 
-# 2. Iniciar servidor de desarrollo
-npm run dev
-
-# 3. Abrir en el navegador
-# http://localhost:5173
-```
-
-### Otros comandos
-
-```bash
-# Construir para producción
-npm run build
-
-# Previsualizar build de producción
-npm run preview
-```
 
 ## Módulos del sistema
 
