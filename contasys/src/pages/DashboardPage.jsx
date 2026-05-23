@@ -3,6 +3,7 @@ import { supabase } from '../supabaseClient'
 import Sidebar from '../components/dashboard/Sidebar'
 import TopBar from '../components/dashboard/TopBar'
 import DashboardHome from '../components/dashboard/modulos/DashboardHome'
+import Inventario from '../components/dashboard/modulos/Inventario'
 
 export default function DashboardPage() {
   const [empresaNombre, setEmpresaNombre] = useState('')
@@ -39,6 +40,7 @@ export default function DashboardPage() {
 
   const titles = {
     dashboard: 'Dashboard',
+    inventario: 'Inventario',
   }
 
   return (
@@ -53,9 +55,10 @@ export default function DashboardPage() {
 
       <TopBar title={titles[active] || 'Dashboard'} />
 
-      {active === 'dashboard' ? <DashboardHome /> : <DashboardHome />}
+      {active === 'inventario' ? <Inventario /> : <DashboardHome />}
     </div>
   )
 }
+
 
 
