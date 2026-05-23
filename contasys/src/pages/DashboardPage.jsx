@@ -7,9 +7,12 @@ import Inventario from '../components/dashboard/modulos/Inventario'
 import Ventas from '../components/dashboard/modulos/Ventas'
 import Clientes from '../components/dashboard/modulos/Clientes'
 import Proveedores from '../components/dashboard/modulos/Proveedores'
+import Gastos from '../components/dashboard/modulos/Gastos'
+import Facturacion from '../components/dashboard/modulos/Facturacion'
 
 
 export default function DashboardPage() {
+
 
   const [empresaNombre, setEmpresaNombre] = useState('')
   const [usuarioNombre, setUsuarioNombre] = useState('')
@@ -47,7 +50,12 @@ export default function DashboardPage() {
     dashboard: 'Dashboard',
     inventario: 'Inventario',
     ventas: 'Ventas',
+    clientes: 'Clientes',
+    proveedores: 'Proveedores',
+    gastos: 'Gastos',
+    facturacion: 'Facturación',
   }
+
 
   return (
     <div>
@@ -70,9 +78,14 @@ export default function DashboardPage() {
         <Clientes />
       ) : active === 'proveedores' ? (
         <Proveedores />
+      ) : active === 'gastos' ? (
+        <Gastos />
+      ) : active === 'facturacion' ? (
+        <Facturacion />
       ) : (
         <DashboardHome />
       )}
+
 
 
     </div>
