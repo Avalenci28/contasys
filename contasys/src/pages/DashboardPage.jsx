@@ -9,6 +9,8 @@ import Clientes from '../components/dashboard/modulos/Clientes'
 import Proveedores from '../components/dashboard/modulos/Proveedores'
 import Gastos from '../components/dashboard/modulos/Gastos'
 import Facturacion from '../components/dashboard/modulos/Facturacion'
+import Reportes from '../components/dashboard/modulos/Reportes'
+import Configuracion from '../components/dashboard/modulos/Configuracion'
 
 
 export default function DashboardPage() {
@@ -54,6 +56,8 @@ export default function DashboardPage() {
     proveedores: 'Proveedores',
     gastos: 'Gastos',
     facturacion: 'Facturación',
+    reportes: 'Reportes',
+    configuracion: 'Configuración',
   }
 
 
@@ -82,6 +86,10 @@ export default function DashboardPage() {
         <Gastos />
       ) : active === 'facturacion' ? (
         <Facturacion />
+      ) : active === 'reportes' ? (
+        <Reportes />
+      ) : active === 'configuracion' ? (
+        <Configuracion />
       ) : (
         <DashboardHome />
       )}
