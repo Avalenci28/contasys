@@ -4,8 +4,10 @@ import Sidebar from '../components/dashboard/Sidebar'
 import TopBar from '../components/dashboard/TopBar'
 import DashboardHome from '../components/dashboard/modulos/DashboardHome'
 import Inventario from '../components/dashboard/modulos/Inventario'
+import Ventas from '../components/dashboard/modulos/Ventas'
 
 export default function DashboardPage() {
+
   const [empresaNombre, setEmpresaNombre] = useState('')
   const [usuarioNombre, setUsuarioNombre] = useState('')
   const [active, setActive] = useState('dashboard')
@@ -41,10 +43,12 @@ export default function DashboardPage() {
   const titles = {
     dashboard: 'Dashboard',
     inventario: 'Inventario',
+    ventas: 'Ventas',
   }
 
   return (
     <div>
+
       <Sidebar
         empresaNombre={empresaNombre}
         usuarioNombre={usuarioNombre}
@@ -55,7 +59,14 @@ export default function DashboardPage() {
 
       <TopBar title={titles[active] || 'Dashboard'} />
 
-      {active === 'inventario' ? <Inventario /> : <DashboardHome />}
+      {active === 'inventario' ? (
+        <Inventario />
+      ) : active === 'ventas' ? (
+        <Ventas />
+      ) : (
+        <DashboardHome />
+      )}
+
     </div>
   )
 }
