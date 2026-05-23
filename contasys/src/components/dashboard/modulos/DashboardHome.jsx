@@ -124,8 +124,8 @@ export default function DashboardHome() {
         // Top 5 productos más vendidos: venta_items join inventario
         const { data: itemsData, error: itemsError } = await supabase
           .from('venta_items')
-          .select('producto_id, cantidad, subtotal')
-          .eq('venta_id', 'is.not.null')
+          .select('producto_id, cantidad, subtotal, venta_id')
+          .not('venta_id', 'is', null)
         if (itemsError) throw itemsError
 
         // Filtrar por empresa via ventas (en cliente, por simplicidad inicial)
@@ -133,6 +133,7 @@ export default function DashboardHome() {
           .from('ventas')
           .select('id')
           .eq('empresa_id', empresaId)
+
 
         const ventaIds = new Set((ventasForItems ?? []).map((v) => v.id))
         const filtered = (itemsData ?? []).filter((it) => ventaIds.has(it.venta_id))
