@@ -72,3 +72,59 @@
   .top { grid-template-columns: 1fr; gap: 2rem; }
   .linksGrid { grid-template-columns: repeat(2, 1fr); }
 }
+
+.modalScroll {
+  max-height: min(68vh, 520px);
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.modalSection {
+  margin-bottom: 18px;
+}
+
+.modalSectionTitle {
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0 0 8px;
+  color: #ffffff;
+}
+
+.modalText {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #eaf0ff;
+  margin: 0;
+}
+
+.modalList {
+  margin: 8px 0 0;
+  padding-left: 18px;
+}
+
+.modalListItem {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #eaf0ff;
+  margin: 6px 0;
+}
+
+.modalCloseBtnWrap {
+  margin-top: 18px;
+}
+
+.modalCloseBtn {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255,255,255,0.06);
+  color: #eaf0ff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.modalCloseBtn:hover {
+  background: rgba(255,255,255,0.10);
+}
+
