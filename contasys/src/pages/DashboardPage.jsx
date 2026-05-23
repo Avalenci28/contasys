@@ -1,8 +1,13 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../supabaseClient'
+import Sidebar from '../components/dashboard/Sidebar'
+import TopBar from '../components/dashboard/TopBar'
+import DashboardHome from '../components/dashboard/modulos/DashboardHome'
 
 export default function DashboardPage() {
   const [empresaNombre, setEmpresaNombre] = useState('')
+  const [usuarioNombre, setUsuarioNombre] = useState('')
+  const [active, setActive] = useState('dashboard')
 
   useEffect(() => {
     let mounted = true
@@ -12,14 +17,14 @@ export default function DashboardPage() {
       const userId = sessionData?.session?.user?.id
       if (!userId) return
 
-      const { data, error } = await supabase
-        .from('empresas')
-        .select('nombre_empresa')
-        .eq('user_id', userId)
-        .maybeSingle()
+      const [{ data: profile, error: profErr }, { data: empresa, error: empErr }] = await Promise.all([
+        supabase.from('profiles').select('name').eq('id', userId).maybeSingle(),
+        supabase.from('empresas').select('nombre_empresa').eq('user_id', userId).limit(1).maybeSingle(),
+      ])
 
       if (!mounted) return
-      if (!error) setEmpresaNombre(data?.nombre_empresa ?? '')
+      if (!profErr) setUsuarioNombre(profile?.name ?? '')
+      if (!empErr) setEmpresaNombre(empresa?.nombre_empresa ?? '')
     })()
 
     return () => {
@@ -27,16 +32,30 @@ export default function DashboardPage() {
     }
   }, [])
 
+  async function handleLogout() {
+    await supabase.auth.signOut()
+    window.location.href = '/' // simple redirect
+  }
+
+  const titles = {
+    dashboard: 'Dashboard',
+  }
+
   return (
-    <div style={{ padding: 24 }}>
-      <h1 style={{ margin: 0, fontSize: 22 }}>Dashboard</h1>
-      <p style={{ opacity: 0.8, marginTop: 8 }}>
-        {empresaNombre ? `Empresa: ${empresaNombre}` : 'Cargando datos de empresa...'}
-      </p>
-      <p style={{ opacity: 0.7, marginTop: 16 }}>
-        Layout y módulos completos se implementarán en el Paso 4 y siguientes.
-      </p>
+    <div>
+      <Sidebar
+        empresaNombre={empresaNombre}
+        usuarioNombre={usuarioNombre}
+        active={active}
+        onNavigate={(key) => setActive(key)}
+        onLogout={handleLogout}
+      />
+
+      <TopBar title={titles[active] || 'Dashboard'} />
+
+      {active === 'dashboard' ? <DashboardHome /> : <DashboardHome />}
     </div>
   )
 }
+
 

@@ -1,0 +1,31 @@
+.topbar{
+  position:fixed;
+  left:240px;
+  right:0;
+  top:0;
+  height:72px;
+  background:#F8F9FA;
+  border-bottom:1px solid rgba(0,0,0,.06);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 22px;
+  z-index:10;
+}
+.left{display:flex; flex-direction:column; gap:4px;}
+.title{margin:0; font-size:18px; font-weight:900; color:#04342C;}
+.date{font-size:12px; opacity:.7;}
+.right{display:flex; gap:12px; align-items:center;}
+.iconBtn{border:0; background:rgba(4,52,44,.08); border-radius:12px; width:44px; height:44px; cursor:pointer; font-size:18px;}
+.search{
+  height:44px;
+  border-radius:12px;
+  border:1px solid rgba(4,52,44,.16);
+  background:#fff;
+  padding:0 14px;
+  min-width:320px;
+}
+@media (max-width: 900px){
+  .search{min-width:200px}
+}
+
