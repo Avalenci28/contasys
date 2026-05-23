@@ -5,6 +5,9 @@ import TopBar from '../components/dashboard/TopBar'
 import DashboardHome from '../components/dashboard/modulos/DashboardHome'
 import Inventario from '../components/dashboard/modulos/Inventario'
 import Ventas from '../components/dashboard/modulos/Ventas'
+import Clientes from '../components/dashboard/modulos/Clientes'
+import Proveedores from '../components/dashboard/modulos/Proveedores'
+
 
 export default function DashboardPage() {
 
@@ -63,9 +66,14 @@ export default function DashboardPage() {
         <Inventario />
       ) : active === 'ventas' ? (
         <Ventas />
+      ) : active === 'clientes' ? (
+        <Clientes />
+      ) : active === 'proveedores' ? (
+        <Proveedores />
       ) : (
         <DashboardHome />
       )}
+
 
     </div>
   )
