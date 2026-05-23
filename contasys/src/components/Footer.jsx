@@ -79,7 +79,8 @@ export default function Footer({
 
         <div className={styles.bottom}>
           <p className={styles.copy}>
-            © {new Date().getFullYear()} ContaSys · Universidad de la Costa – CUC · Ingeniería de Sistemas
+            © {new Date().getFullYear()} ContaSys
+
           </p>
           <p className={styles.copy}>Gestión de Proyectos TI · Grupo 4</p>
         </div>
