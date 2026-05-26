@@ -11,7 +11,12 @@ const MENU = [
   { key: 'gastos', label: 'Gastos', icon: '💼' },
   { key: 'reportes', label: 'Reportes', icon: '📈' },
   { key: 'configuracion', label: 'Configuración', icon: '⚙️' },
+  { key: 'pos', label: '🧾 Caja POS', icon: '🧾' },
+  { key: 'cotizaciones', label: '📋 Cotizaciones', icon: '📋' },
+  { key: 'deudas', label: '💳 Deudas', icon: '💳' },
+  { key: 'catalogo', label: '🛍️ Catálogo', icon: '🛍️' },
 ]
+
 
 export default function Sidebar({ empresaNombre, usuarioNombre, active, onNavigate, onLogout }) {
   return (

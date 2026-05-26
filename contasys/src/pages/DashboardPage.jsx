@@ -11,14 +11,20 @@ import Gastos from '../components/dashboard/modulos/Gastos'
 import Facturacion from '../components/dashboard/modulos/Facturacion'
 import Reportes from '../components/dashboard/modulos/Reportes'
 import Configuracion from '../components/dashboard/modulos/Configuracion'
+import POS from '../components/dashboard/modulos/POS'
+import Cotizaciones from '../components/dashboard/modulos/Cotizaciones'
+import Deudas from '../components/dashboard/modulos/Deudas'
+import Catalogo from '../components/dashboard/modulos/Catalogo'
 
 
 export default function DashboardPage() {
 
 
+
   const [empresaNombre, setEmpresaNombre] = useState('')
   const [usuarioNombre, setUsuarioNombre] = useState('')
   const [active, setActive] = useState('dashboard')
+
 
   useEffect(() => {
     let mounted = true
@@ -90,6 +96,14 @@ export default function DashboardPage() {
         <Reportes />
       ) : active === 'configuracion' ? (
         <Configuracion />
+) : active === 'pos' ? (
+        <POS />
+      ) : active === 'cotizaciones' ? (
+        <Cotizaciones />
+      ) : active === 'deudas' ? (
+        <Deudas />
+      ) : active === 'catalogo' ? (
+        <Catalogo />
       ) : (
         <DashboardHome />
       )}
@@ -99,6 +113,10 @@ export default function DashboardPage() {
     </div>
   )
 }
+
+
+
+
 
 
 
