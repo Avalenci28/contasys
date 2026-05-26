@@ -17,6 +17,9 @@ export default function DashboardHome() {
 
   const [ventasMes, setVentasMes] = useState(0)
   const [gastosMes, setGastosMes] = useState(0)
+  const [ventasHoy, setVentasHoy] = useState(0)
+  const [gastosHoy, setGastosHoy] = useState(0)
+  const [productosStockCritico, setProductosStockCritico] = useState(0)
   const [productosStock, setProductosStock] = useState(0)
   const [clientesActivos, setClientesActivos] = useState(0)
   const [facturasPendientes, setFacturasPendientes] = useState(0)
@@ -27,8 +30,19 @@ export default function DashboardHome() {
 
   const now = useMemo(() => new Date(), [])
 
+  const [refreshKey, setRefreshKey] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRefreshKey((k) => k + 1)
+    }, 30000)
+
+    return () => clearInterval(interval)
+  }, [])
+
   useEffect(() => {
     if (!empresaId) return
+
 
     let mounted = true
 
@@ -41,6 +55,7 @@ export default function DashboardHome() {
         const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1)
 
         const [ventasResp, gastosResp, inventarioResp, clientesResp, facturasResp] = await Promise.all([
+
           supabase
             .from('ventas')
             .select('total')
@@ -183,7 +198,7 @@ export default function DashboardHome() {
     return () => {
       mounted = false
     }
-  }, [empresaId, now])
+  }, [empresaId, now, refreshKey])
 
   if (loadingEmpresa) return <div style={{ marginLeft: 240, padding: 24 }}>Cargando...</div>
 
@@ -204,6 +219,7 @@ export default function DashboardHome() {
   }
 
   const utilidad = ventasMes - gastosMes
+  const utilidadHoy = ventasHoy - gastosHoy
 
   return (
     <div style={{ marginLeft: 240, padding: 24, paddingTop: 92 }}>
