@@ -4,9 +4,11 @@ import DashboardPage from './pages/DashboardPage'
 import ProtectedRoute from './ProtectedRoute'
 import { useEffect } from 'react'
 import { supabase } from './supabaseClient'
+import SupportChat from './components/ui/SupportChat'
 
 export default function App() {
   const navigate = useNavigate()
+
 
   useEffect(() => {
     // Forzar a que si ya hay sesión, /dashboard sea accesible.
@@ -14,30 +16,35 @@ export default function App() {
   }, [])
 
   return (
-    <Routes>
-      <Route
-        path="/"
-        element={
-          <LandingPage
-            onAuthSuccess={() => {
-              // En cuanto se autentica, redirigir.
-              navigate('/dashboard', { replace: true })
-            }}
-          />
-        }
-      />
+    <>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <LandingPage
+              onAuthSuccess={() => {
+                // En cuanto se autentica, redirigir.
+                navigate('/dashboard', { replace: true })
+              }}
+            />
+          }
+        />
 
-      <Route
-        path="/dashboard"
-        element={
-          <ProtectedRoute>
-            <DashboardPage />
-          </ProtectedRoute>
-        }
-      />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <DashboardPage />
+            </ProtectedRoute>
+          }
+        />
 
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+
+      <SupportChat />
+    </>
   )
 }
+
 
