@@ -15,9 +15,13 @@ import POS from '../components/dashboard/modulos/POS'
 import Cotizaciones from '../components/dashboard/modulos/Cotizaciones'
 import Deudas from '../components/dashboard/modulos/Deudas'
 import Catalogo from '../components/dashboard/modulos/Catalogo'
+import useToast from '../hooks/useToast'
+import { ToastContainer } from '../components/ui/Toast'
+
 
 
 export default function DashboardPage() {
+  const { toasts, addToast, removeToast } = useToast()
   const [isDesktop, setIsDesktop] = useState(() => (typeof window !== 'undefined' ? window.innerWidth >= 1024 : true))
 
   useEffect(() => {
@@ -121,9 +125,9 @@ export default function DashboardPage() {
 
 
       {active === 'inventario' ? (
-        <Inventario />
+        <Inventario addToast={addToast} />
       ) : active === 'ventas' ? (
-        <Ventas />
+        <Ventas addToast={addToast} />
       ) : active === 'clientes' ? (
         <Clientes />
       ) : active === 'proveedores' ? (
@@ -136,17 +140,19 @@ export default function DashboardPage() {
         <Reportes />
       ) : active === 'configuracion' ? (
         <Configuracion />
-) : active === 'pos' ? (
-        <POS />
+      ) : active === 'pos' ? (
+        <POS addToast={addToast} />
       ) : active === 'cotizaciones' ? (
-        <Cotizaciones />
+        <Cotizaciones addToast={addToast} />
       ) : active === 'deudas' ? (
-        <Deudas />
+        <Deudas addToast={addToast} />
       ) : active === 'catalogo' ? (
         <Catalogo />
       ) : (
         <DashboardHome />
       )}
+
+      <ToastContainer toasts={toasts} onRemove={removeToast} />
 
 
 

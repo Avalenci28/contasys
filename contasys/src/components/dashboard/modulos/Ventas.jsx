@@ -22,7 +22,8 @@ function calcLineSubtotal(cantidad, precioUnitario) {
   return toNumber(cantidad) * toNumber(precioUnitario)
 }
 
-export default function Ventas() {
+export default function Ventas({ addToast }) {
+  const safeToast = addToast || (() => {})
   const { empresa, loading: loadingEmpresa } = useEmpresa()
   const empresaId = empresa?.id
 
@@ -261,11 +262,13 @@ export default function Ventas() {
       }
 
       setModalOpen(false)
+      safeToast('Venta registrada exitosamente')
       // recargar
       setFechaDesde('')
       setFechaHasta('')
       setEstado('')
     } catch (e) {
+      safeToast('Ocurrió un error', 'error')
       setModalErrors({ _form: e?.message || 'Error al guardar la venta' })
     } finally {
       setSaving(false)

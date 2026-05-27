@@ -481,7 +481,7 @@ export default function Cotizaciones() {
       const { error: cErr } = await supabase.from('cotizaciones').update({ estado: 'convertida' }).eq('id', cot.id)
       if (cErr) throw cErr
 
-      alert('Cotización convertida a venta ✅')
+      safeToast('Cotización convertida a venta ✅', 'success')
       setEstadoFiltro('')
     } catch (e) {
       setError(e?.message || 'Error convirtiendo a venta')

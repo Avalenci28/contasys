@@ -16,7 +16,8 @@ function toNumber(value) {
   return Number.isFinite(n) ? n : 0
 }
 
-export default function Inventario() {
+export default function Inventario({ addToast }) {
+  const safeToast = addToast || (() => {})
   const { empresa, loading: loadingEmpresa } = useEmpresa()
   const empresaId = empresa?.id
 
@@ -184,15 +185,16 @@ export default function Inventario() {
       if (modalMode === 'add') {
         const { error: err } = await supabase.from('inventario').insert(payload)
         if (err) throw err
+        safeToast('Producto creado exitosamente')
       } else {
         const { error: err } = await supabase.from('inventario').update(payload).eq('id', editId)
         if (err) throw err
+        safeToast('Producto actualizado')
       }
 
       setModalOpen(false)
       setEditId(null)
 
-      // recargar
       setPage(1)
       setCategoria('')
       setQuery('')
