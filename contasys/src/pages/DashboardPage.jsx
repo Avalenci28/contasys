@@ -18,12 +18,45 @@ import Catalogo from '../components/dashboard/modulos/Catalogo'
 
 
 export default function DashboardPage() {
+  const [isDesktop, setIsDesktop] = useState(() => (typeof window !== 'undefined' ? window.innerWidth >= 1024 : true))
+
+  useEffect(() => {
+    const onResize = () => setIsDesktop(window.innerWidth >= 1024)
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
+
 
 
 
   const [empresaNombre, setEmpresaNombre] = useState('')
   const [usuarioNombre, setUsuarioNombre] = useState('')
   const [active, setActive] = useState('dashboard')
+
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
+    try {
+      return localStorage.getItem('sidebar_collapsed') === 'true'
+    } catch {
+      return false
+    }
+  })
+
+  const [sidebarMobileOpen, setSidebarMobileOpen] = useState(false)
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('sidebar_collapsed', String(sidebarCollapsed))
+    } catch {}
+  }, [sidebarCollapsed])
+
+  useEffect(() => {
+    const onResize = () => {
+      if (window.innerWidth >= 1024) setSidebarMobileOpen(false)
+    }
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
+
 
 
   useEffect(() => {
@@ -76,9 +109,17 @@ export default function DashboardPage() {
         active={active}
         onNavigate={(key) => setActive(key)}
         onLogout={handleLogout}
+        isCollapsed={sidebarCollapsed}
+        isMobileOpen={sidebarMobileOpen}
+        onCloseMobile={() => setSidebarMobileOpen(false)}
       />
 
-      <TopBar title={titles[active] || 'Dashboard'} />
+      <TopBar
+        title={titles[active] || 'Dashboard'}
+        onSearch={undefined}
+        onToggleSidebar={() => setSidebarMobileOpen((v) => !v)}
+      />
+
 
       {active === 'inventario' ? (
         <Inventario />

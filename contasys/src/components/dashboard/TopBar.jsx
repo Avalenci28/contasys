@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import styles from './TopBar.module.css'
 import NotificationsPanel from './NotificationsPanel'
 
-export default function TopBar({ title, onSearch }) {
+export default function TopBar({ title, onSearch, onToggleSidebar }) {
   const [now, setNow] = useState(() => new Date())
 
 
@@ -17,6 +17,14 @@ export default function TopBar({ title, onSearch }) {
     <header className={styles.topbar}>
 
       <div className={styles.left}>
+        <button
+          type="button"
+          className={styles.hamburger}
+          aria-label="Abrir/Cerrar menú"
+          onClick={onToggleSidebar}
+        >
+          ☰
+        </button>
         <h2 className={styles.title}>{title}</h2>
         <div className={styles.date}>{now.toLocaleString()}</div>
       </div>

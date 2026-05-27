@@ -44,7 +44,9 @@ const MENU_GROUPS = [
 
 
 
-export default function Sidebar({ empresaNombre, usuarioNombre, active, onNavigate, onLogout }) {
+export default function Sidebar({ empresaNombre, usuarioNombre, active, onNavigate, onLogout, isCollapsed, isMobileOpen, onCloseMobile }) {
+  const effectiveMobileOpen = !!isMobileOpen
+
   return (
     <aside className={styles.sidebar}>
       <div className={styles.top}>
