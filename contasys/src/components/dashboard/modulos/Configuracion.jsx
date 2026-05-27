@@ -357,7 +357,8 @@ export default function Configuracion() {
                   type="password"
                   value={passwordForm.newPassword}
                   onChange={(e) => setPasswordForm((f) => ({ ...f, newPassword: e.target.value }))}
-                  style={{ height: 44, borderRadius: 12, border: `1px solid ${passwordForm.newPassword ? 'rgba(0,0,0,.12)' : 'rgba(0,0,0,.12)'}`, padding: '0 12px', borderRadius: 12 }}
+                  style={{ height: 44, borderRadius: 12, border: `1px solid ${passwordForm.newPassword ? 'rgba(0,0,0,.12)' : 'rgba(0,0,0,.12)'}`, padding: '0 12px' }}
+
                   disabled={savingPassword}
                 />
               </label>

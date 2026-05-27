@@ -662,7 +662,8 @@ export default function POS() {
                   <div style={{ fontWeight: 1000, color: '#04342C' }}>Tips</div>
                   <ul style={{ margin: '8px 0 0', paddingLeft: 18, opacity: 0.8, fontWeight: 900, lineHeight: 1.6 }}>
                       <li>
-                      Solo se listan productos con <b>stock_actual > 0</b>.
+Solo se listan productos con <b>{'stock_actual > 0'}</b>.
+                    
                     </li>
                     <li>
                       Si el efectivo excede el total, el sistema calcula el <b>cambio</b>.

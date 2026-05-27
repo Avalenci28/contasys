@@ -21,6 +21,7 @@ export default function DashboardHome() {
   const [gastosHoy, setGastosHoy] = useState(0)
   const [productosStockCritico, setProductosStockCritico] = useState(0)
   const [productosStock, setProductosStock] = useState(0)
+
   const [clientesActivos, setClientesActivos] = useState(0)
   const [facturasPendientes, setFacturasPendientes] = useState(0)
 
@@ -54,8 +55,10 @@ export default function DashboardHome() {
         const monthStart = new Date(now.getFullYear(), now.getMonth(), 1)
         const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, 1)
 
-        const [ventasResp, gastosResp, inventarioResp, clientesResp, facturasResp] = await Promise.all([
+        const inicioDelDia = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+        const finDelDia = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1)
 
+        const [ventasResp, gastosResp, inventarioResp, clientesResp, facturasResp, ventasHoyResp, gastosHoyResp, invCriticoResp] = await Promise.all([
           supabase
             .from('ventas')
             .select('total')
@@ -75,7 +78,25 @@ export default function DashboardHome() {
             .select('id')
             .eq('empresa_id', empresaId)
             .eq('estado', 'pendiente'),
+
+          supabase
+            .from('ventas')
+            .select('total')
+            .eq('empresa_id', empresaId)
+            .gte('fecha', inicioDelDia.toISOString())
+            .lt('fecha', finDelDia.toISOString()),
+          supabase
+            .from('gastos')
+            .select('monto')
+            .eq('empresa_id', empresaId)
+            .gte('fecha', inicioDelDia.toISOString())
+            .lt('fecha', finDelDia.toISOString()),
+          supabase
+            .from('inventario')
+            .select('stock_actual,stock_minimo')
+            .eq('empresa_id', empresaId),
         ])
+
 
         if (!mounted) return
 
@@ -88,8 +109,24 @@ export default function DashboardHome() {
         const ventasSum = (ventasResp.data ?? []).reduce((acc, r) => acc + Number(r.total ?? 0), 0)
         const gastosSum = (gastosResp.data ?? []).reduce((acc, r) => acc + Number(r.monto ?? 0), 0)
 
+        const ventasHoySum = (ventasHoyResp.data ?? []).reduce((acc, r) => acc + Number(r.total ?? 0), 0)
+        const gastosHoySum = (gastosHoyResp.data ?? []).reduce((acc, r) => acc + Number(r.monto ?? 0), 0)
+
+        const productosCriticosCount = (invCriticoResp.data ?? []).filter((r) => {
+          const stockActual = Number(r.stock_actual ?? 0)
+          const stockMin = Number(r.stock_minimo ?? 0)
+          return stockActual <= stockMin
+        }).length
+
         setVentasMes(ventasSum)
         setGastosMes(gastosSum)
+
+        setVentasHoy(ventasHoySum)
+        setGastosHoy(gastosHoySum)
+
+        setProductosStockCritico(productosCriticosCount)
+
+
         setProductosStock((inventarioResp.data ?? []).length)
         setClientesActivos((clientesResp.data ?? []).length)
         setFacturasPendientes((facturasResp.data ?? []).length)
@@ -224,6 +261,74 @@ export default function DashboardHome() {
   return (
     <div style={{ marginLeft: 240, padding: 24, paddingTop: 92 }}>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14 }}>
+        <div
+          className="kpi"
+          style={{ background: '#0F6E56', borderRadius: 12, padding: 16, boxShadow: '0 8px 24px rgba(0,0,0,.04)', color: '#fff' }}
+        >
+          <div style={{ opacity: 0.9, fontWeight: 800, fontSize: 12 }}>Ventas hoy</div>
+          <div style={{ fontWeight: 1000, fontSize: 22, marginTop: 6 }}>{formatMoney(ventasHoy)}</div>
+        </div>
+        <div
+          className="kpi"
+          style={{ background: '#0F6E56', borderRadius: 12, padding: 16, boxShadow: '0 8px 24px rgba(0,0,0,.04)', color: '#fff' }}
+        >
+          <div style={{ opacity: 0.9, fontWeight: 800, fontSize: 12 }}>Utilidad hoy</div>
+          <div style={{ fontWeight: 1000, fontSize: 22, marginTop: 6 }}>{formatMoney(utilidadHoy)}</div>
+        </div>
+        <div
+          className="kpi"
+          style={{ background: '#0F6E56', borderRadius: 12, padding: 16, boxShadow: '0 8px 24px rgba(0,0,0,.04)', color: '#fff' }}
+        >
+          <div style={{ opacity: 0.9, fontWeight: 800, fontSize: 12 }}>Gastos hoy</div>
+          <div style={{ fontWeight: 1000, fontSize: 22, marginTop: 6 }}>{formatMoney(gastosHoy)}</div>
+        </div>
+      </div>
+
+      {productosStockCritico > 0 ? (
+        <div
+          style={{
+            marginTop: 14,
+            background: 'rgba(176,0,32,0.08)',
+            borderLeft: '4px solid #b00020',
+            borderRadius: 0,
+            padding: '12px 14px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: 12,
+          }}
+        >
+          <div style={{ fontWeight: 1000, color: '#b00020' }}>
+            ⚠️ {productosStockCritico} producto(s) con stock crítico
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              // mechanism: DashboardPage maneja active vía Sidebar; aquí usamos 'location' para evitar dependencias
+              // (si el proyecto luego reemplaza rutas, este click sigue activando inventario al refrescar)
+              window.location.hash = '#inventario'
+              // además, forzamos navegación actual
+              window.dispatchEvent(new Event('blackboxai:navigate-inventario'))
+            }}
+            style={{
+              height: 34,
+              borderRadius: 10,
+              border: '1px solid rgba(176,0,32,.25)',
+              background: '#fff',
+              color: '#b00020',
+              fontWeight: 1000,
+              padding: '0 12px',
+              cursor: 'pointer',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            Ver inventario
+          </button>
+        </div>
+      ) : null}
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14, marginTop: 14 }}>
+
         <div className="kpi" style={{ background: '#fff', borderRadius: 12, padding: 16, boxShadow: '0 8px 24px rgba(0,0,0,.04)' }}>
           <div style={{ opacity: 0.7, fontWeight: 800, fontSize: 12 }}>Ventas del mes</div>
           <div style={{ fontWeight: 1000, fontSize: 22, marginTop: 6 }}>{formatMoney(ventasMes)}</div>
@@ -237,6 +342,7 @@ export default function DashboardHome() {
           <div style={{ fontWeight: 1000, fontSize: 22, marginTop: 6 }}>{formatMoney(utilidad)}</div>
         </div>
       </div>
+
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14, marginTop: 14 }}>
         <div style={{ background: '#fff', borderRadius: 12, padding: 16, boxShadow: '0 8px 24px rgba(0,0,0,.04)' }}>
