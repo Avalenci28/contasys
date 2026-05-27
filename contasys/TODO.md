@@ -1,11 +1,11 @@
-## Task: Modo oscuro (toggle en TopBar/Header)
+# TODO - Chat de soporte con respuestas automáticas
 
-- [ ] Crear `src/hooks/useDarkMode.js`
-- [ ] Agregar variables CSS en `src/index.css` (incluye `[data-theme="dark"]`)
-- [ ] Actualizar `src/pages/DashboardPage.jsx` para usar `useDarkMode` y pasar `dark/toggleDark` al `TopBar`
-- [ ] Actualizar `src/components/dashboard/TopBar.jsx` para renderizar el botón toggle antes de la campana
-- [ ] Aplicar variables CSS en módulos (DashboardHome, Inventario, Ventas, POS, Cotizaciones, Deudas, Catalogo, Reportes)
-- [ ] Ejecutar tests/build/lint (si aplica)
-- [ ] Commit: `feat: modo oscuro con toggle en header y variables CSS`
-- [ ] Push a `main` en el repo `https://github.com/Avalenci28/contasys.git`
+- [ ] Reemplazar en `src/components/ui/SupportChat.jsx` la llamada a Anthropic por lógica 100% local con respuestas predefinidas basada en palabras clave.
+- [ ] Implementar `obtenerRespuesta(mensaje)` con el arreglo `respuestas` provisto.
+- [ ] Simular delay de 800ms antes de mostrar la respuesta.
+- [ ] Eliminar dependencias/constantes relacionadas a Anthropic (endpoint, modelo, apiKey, callAnthropic).
+- [ ] Mantener la UI y el flujo actual del chat (loading, historial, scroll).
+- [ ] Ejecutar build/lint (si aplica) y validar que el chat responde correctamente.
+- [ ] Hacer commit con el mensaje: `feat: chat de soporte con respuestas automáticas gratis`.
+- [ ] Push a `main` en el repo: https://github.com/Avalenci28/contasys.git
 

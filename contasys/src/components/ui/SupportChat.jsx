@@ -1,7 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
-
-const ANTHROPIC_ENDPOINT = 'https://api.anthropic.com/v1/messages'
-const MODEL = 'claude-sonnet-4-20250514'
+import { useEffect, useRef, useState } from 'react'
 
 const QUICK_QUESTIONS = [
   '¿Cómo agrego un producto?',
@@ -9,6 +6,89 @@ const QUICK_QUESTIONS = [
   '¿Cómo creo una cotización?',
   '¿Cómo funciona la Caja POS?',
 ]
+
+const respuestas = [
+  {
+    keywords: ['inventario', 'producto', 'agregar producto', 'stock'],
+    respuesta:
+      '📦 Para agregar un producto ve a **Inventario** → botón "+ Agregar producto". Llena nombre, precio de compra, precio de venta y stock inicial. ¡Listo!',
+  },
+  {
+    keywords: ['venta', 'vender', 'registrar venta'],
+    respuesta:
+      '💰 Para registrar una venta ve a **Ventas** → "+ Nueva venta". Selecciona el cliente, busca los productos, y el sistema descuenta el stock automáticamente.',
+  },
+  {
+    keywords: ['pos', 'caja', 'cobrar', 'cobro'],
+    respuesta:
+      '🧾 La **Caja POS** es para cobros rápidos. Ve a "Caja POS" en el menú, busca productos, agrégalos al carrito y selecciona el método de pago (efectivo, tarjeta o transferencia).',
+  },
+  {
+    keywords: ['cotizacion', 'cotización', 'presupuesto'],
+    respuesta:
+      '📋 En **Cotizaciones** puedes crear presupuestos para clientes. Una vez aceptados, se convierten en venta con un solo clic.',
+  },
+  {
+    keywords: ['deuda', 'credito', 'crédito', 'fiado'],
+    respuesta:
+      '💳 En **Deudas** registras cuando un cliente queda debiendo. Puedes registrar pagos parciales y ver el historial completo.',
+  },
+  {
+    keywords: ['reporte', 'grafica', 'gráfica', 'estadistica'],
+    respuesta:
+      '📊 En **Reportes** encuentras gráficas de ventas por mes, gastos por categoría, estado de resultados y puedes exportar todo a CSV.',
+  },
+  {
+    keywords: ['catalogo', 'catálogo', 'tienda', 'whatsapp'],
+    respuesta:
+      '🛍️ En **Catálogo** activas tus productos y obtienes un link para compartir por WhatsApp. Tus clientes pueden ver precios y pedirte directamente.',
+  },
+  {
+    keywords: ['cliente', 'clientes'],
+    respuesta:
+      '👥 En **Clientes** guardas la información de tus compradores. Al registrar ventas puedes asociarlas a un cliente específico.',
+  },
+  {
+    keywords: ['proveedor', 'proveedores'],
+    respuesta:
+      '🚚 En **Proveedores** guardas la información de tus proveedores y los asocias a productos del inventario.',
+  },
+  {
+    keywords: ['factura', 'facturacion', 'facturación'],
+    respuesta:
+      '🧾 En **Facturación** puedes generar facturas formales para tus clientes con todos los detalles de la venta.',
+  },
+  {
+    keywords: ['modo oscuro', 'oscuro', 'dark'],
+    respuesta:
+      '🌙 Puedes activar el **modo oscuro** haciendo clic en el botón 🌙 que está en la barra superior derecha.',
+  },
+  {
+    keywords: ['buscar', 'buscador', 'busqueda'],
+    respuesta:
+      '🔍 Usa la **barra de búsqueda** en la parte superior para encontrar productos, clientes, ventas y cotizaciones desde cualquier módulo.',
+  },
+  {
+    keywords: ['hola', 'buenos dias', 'buenas', 'hey'],
+    respuesta:
+      '👋 ¡Hola! Estoy aquí para ayudarte con ContaSys. Puedes preguntarme sobre inventario, ventas, cotizaciones, reportes o cualquier función del sistema.',
+  },
+  {
+    keywords: ['gracias', 'thank'],
+    respuesta:
+      '😊 ¡Con gusto! Si tienes más preguntas sobre ContaSys, aquí estoy.',
+  },
+]
+
+function obtenerRespuesta(mensaje) {
+  const texto = (mensaje ?? '').toLowerCase()
+  for (const r of respuestas) {
+    if (r.keywords.some((k) => texto.includes(k))) {
+      return r.respuesta
+    }
+  }
+  return '🤔 No estoy seguro de cómo ayudarte con eso. Puedes preguntarme sobre: inventario, ventas, caja POS, cotizaciones, deudas, reportes o catálogo. También puedes escribir a soporte@contasys.co'
+}
 
 function formatTimestamp(ts) {
   try {
@@ -44,19 +124,6 @@ export default function SupportChat() {
   const messagesEndRef = useRef(null)
   const chatScrollRef = useRef(null)
 
-  const apiKey = import.meta.env.VITE_ANTHROPIC_API_KEY
-
-  const systemText = useMemo(
-    () => `Eres el asistente de soporte técnico de ContaSys, 
-  un sistema de inventario y contabilidad para pequeños negocios 
-  en Colombia. Ayudas a los usuarios con preguntas sobre cómo usar 
-  el sistema: inventario, ventas, cotizaciones, deudas, reportes, 
-  caja POS y catálogo virtual. Responde siempre en español, 
-  de forma amable, clara y concisa. Si no sabes algo, 
-  di que contacten a soporte@contasys.co`,
-    [],
-  )
-
   useEffect(() => {
     if (!open) return
 
@@ -80,46 +147,7 @@ export default function SupportChat() {
     }
   }, [messages, open, loading])
 
-  async function callAnthropic(nextMessages) {
-    if (!apiKey) {
-      throw new Error(
-        'Falta la variable de entorno VITE_ANTHROPIC_API_KEY. Contacta al administrador para configurarla.',
-      )
-    }
-
-    const res = await fetch(ANTHROPIC_ENDPOINT, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
-        model: MODEL,
-        max_tokens: 1000,
-        system: systemText,
-        messages: nextMessages.map((m) => ({
-          role: m.role,
-          content: m.content,
-        })),
-      }),
-    })
-
-    const data = await res.json().catch(() => ({}))
-    if (!res.ok) {
-      const msg = data?.error?.message || data?.message || 'Error llamando a Anthropic'
-      throw new Error(msg)
-    }
-
-    const assistantText = data?.content?.[0]?.text
-    if (!assistantText) {
-      throw new Error('Respuesta inválida de Anthropic')
-    }
-
-    return assistantText
-  }
-
-  async function handleSend(raw) {
+  function handleSend(raw) {
     const text = (raw ?? '').trim()
     if (!text || loading) return
 
@@ -128,40 +156,25 @@ export default function SupportChat() {
     setInput('')
     setLoading(true)
 
-    // 1) Agrega mensaje del usuario
     const next = [...messages, userMsg]
     setMessages(next)
 
-    try {
-      // 2) Escribiendo... (render por loading)
-      // 3) Llama API con historial completo
-      const assistantText = await callAnthropic(next)
-
-      // 4) Agrega respuesta
+    // Simula delay para una experiencia más natural
+    setTimeout(() => {
+      const assistantText = obtenerRespuesta(text)
       setMessages((prev) => [
         ...prev,
         { role: 'assistant', content: assistantText, ts: Date.now() },
       ])
-    } catch (e) {
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: 'assistant',
-          content:
-            e?.message ||
-            'No pude completar tu solicitud en este momento. Si el problema continúa, contáctanos a soporte@contasys.co',
-          ts: Date.now(),
-        },
-      ])
-    } finally {
       setLoading(false)
-    }
+    }, 800)
   }
 
   function handleQuickQuestion(q) {
     setOpen(true)
     handleSend(q)
   }
+
 
   return (
     <>
