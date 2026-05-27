@@ -237,20 +237,22 @@ export default function DashboardHome() {
     }
   }, [empresaId, now, refreshKey])
 
-  if (loadingEmpresa) return <div style={{ marginLeft: 240, padding: 24 }}>Cargando...</div>
+  if (loadingEmpresa) {
+    return <div style={{ marginLeft: 240, padding: 24, background: 'var(--bg-main)' }}>Cargando...</div>
+  }
 
   if (loading) {
     return (
-      <div style={{ marginLeft: 240, padding: 24 }}>
-        <div style={{ background: '#fff', borderRadius: 12, padding: 18 }}>Cargando KPI...</div>
+      <div style={{ marginLeft: 240, padding: 24, background: 'var(--bg-main)' }}>
+        <div style={{ background: 'var(--bg-card)', borderRadius: 12, padding: 18 }}>Cargando KPI...</div>
       </div>
     )
   }
 
   if (error) {
     return (
-      <div style={{ marginLeft: 240, padding: 24 }}>
-        <div style={{ background: '#fff', borderRadius: 12, padding: 18, color: '#b00020' }}>{error}</div>
+      <div style={{ marginLeft: 240, padding: 24, background: 'var(--bg-main)' }}>
+        <div style={{ background: 'var(--bg-card)', borderRadius: 12, padding: 18, color: '#b00020' }}>{error}</div>
       </div>
     )
   }
@@ -259,7 +261,7 @@ export default function DashboardHome() {
   const utilidadHoy = ventasHoy - gastosHoy
 
   return (
-    <div style={{ marginLeft: 240, padding: 24, paddingTop: 92 }}>
+    <div style={{ marginLeft: 240, padding: 24, paddingTop: 92, background: 'var(--bg-main)' }}>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14 }}>
         <div
           className="kpi"

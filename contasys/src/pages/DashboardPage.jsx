@@ -17,12 +17,16 @@ import Deudas from '../components/dashboard/modulos/Deudas'
 import Catalogo from '../components/dashboard/modulos/Catalogo'
 import useToast from '../hooks/useToast'
 import { ToastContainer } from '../components/ui/Toast'
+import useDarkMode from '../hooks/useDarkMode'
+
 
 
 
 export default function DashboardPage() {
   const { toasts, addToast, removeToast } = useToast()
+  const { dark, toggleDark } = useDarkMode()
   const [isDesktop, setIsDesktop] = useState(() => (typeof window !== 'undefined' ? window.innerWidth >= 1024 : true))
+
 
   useEffect(() => {
     const onResize = () => setIsDesktop(window.innerWidth >= 1024)
@@ -121,7 +125,10 @@ export default function DashboardPage() {
       <TopBar
         title={titles[active] || 'Dashboard'}
         onSearch={undefined}
+        dark={dark}
+        toggleDark={toggleDark}
       />
+
 
 
       {active === 'inventario' ? (

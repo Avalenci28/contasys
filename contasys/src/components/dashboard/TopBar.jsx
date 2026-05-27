@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import styles from './TopBar.module.css'
 import NotificationsPanel from './NotificationsPanel'
 
-export default function TopBar({ title, onSearch }) {
+export default function TopBar({ title, onSearch, dark, toggleDark }) {
   const [now, setNow] = useState(() => new Date())
 
 
@@ -23,6 +23,23 @@ export default function TopBar({ title, onSearch }) {
       </div>
 
       <div className={styles.right}>
+        <button
+          type="button"
+          onClick={toggleDark}
+          style={{
+            height: 40,
+            width: 40,
+            borderRadius: 12,
+            border: '1px solid var(--border-color)',
+            background: 'var(--bg-card)',
+            cursor: 'pointer',
+            fontSize: 18,
+          }}
+          aria-label="Toggle modo oscuro"
+        >
+          {dark ? '☀️' : '🌙'}
+        </button>
+
         <NotificationsPanel />
         <input
           className={styles.search}
