@@ -1,11 +1,8 @@
-# TODO - Chat de soporte con respuestas automáticas
+# TODO
 
-- [ ] Reemplazar en `src/components/ui/SupportChat.jsx` la llamada a Anthropic por lógica 100% local con respuestas predefinidas basada en palabras clave.
-- [ ] Implementar `obtenerRespuesta(mensaje)` con el arreglo `respuestas` provisto.
-- [ ] Simular delay de 800ms antes de mostrar la respuesta.
-- [ ] Eliminar dependencias/constantes relacionadas a Anthropic (endpoint, modelo, apiKey, callAnthropic).
-- [ ] Mantener la UI y el flujo actual del chat (loading, historial, scroll).
-- [ ] Ejecutar build/lint (si aplica) y validar que el chat responde correctamente.
-- [ ] Hacer commit con el mensaje: `feat: chat de soporte con respuestas automáticas gratis`.
-- [ ] Push a `main` en el repo: https://github.com/Avalenci28/contasys.git
+## Analytics
+- [x] Añadir Google Analytics en `contasys/index.html` antes de `</head>`.
+- [ ] Ejecutar build/lint si aplica.
+- [ ] Crear commit: `feat: agregar Google Analytics G-X9QB4ELJWE`.
+- [ ] Push a `main` en el repo `https://github.com/Avalenci28/contasys.git`.
 
