@@ -5,9 +5,11 @@ import ProtectedRoute from './ProtectedRoute'
 import { useEffect } from 'react'
 import { supabase } from './supabaseClient'
 import SupportChat from './components/ui/SupportChat'
+import CookieBanner from './components/ui/CookieBanner'
 
 export default function App() {
   const navigate = useNavigate()
+
 
 
   useEffect(() => {
@@ -43,8 +45,10 @@ export default function App() {
       </Routes>
 
       <SupportChat />
+      <CookieBanner />
     </>
   )
 }
+
 
 
