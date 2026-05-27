@@ -20,14 +20,11 @@
 .hamburger{display:none; border:0; background:rgba(4,52,44,.08); border-radius:12px; width:44px; height:44px; cursor:pointer; font-size:20px; color:#04342C;}
 @media (max-width: 1023px){
   .topbar{left:0 !important; padding:0 14px;}
-  .hamburger{display:flex; align-items:center; justify-content:center;}
   .search{min-width:160px;}
-}
-@media (min-width: 1024px){
-  .hamburger{display:flex; align-items:center; justify-content:center;}
 }
 
 .search{
+
   height:44px;
   border-radius:12px;
   border:1px solid rgba(4,52,44,.16);

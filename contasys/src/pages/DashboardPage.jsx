@@ -117,7 +117,6 @@ export default function DashboardPage() {
       <TopBar
         title={titles[active] || 'Dashboard'}
         onSearch={undefined}
-        onToggleSidebar={() => setSidebarMobileOpen((v) => !v)}
       />
 
 

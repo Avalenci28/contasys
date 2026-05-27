@@ -10,22 +10,23 @@
   bottom:0;
   padding:18px 14px;
 }
-.top{display:flex; flex-direction:column; height:100vh; position:fixed; width:240px; left:0; top:0; padding:18px 14px; gap:14px;}
+
+.headerFixed{display:flex; flex-direction:column; gap:14px;}
 .logoWrap{display:flex; align-items:center; gap:10px;}
 .brand{font-weight:900; letter-spacing:.2px;}
 .company{opacity:.95; font-weight:700; padding-left:44px;}
-.navItems{
-  overflowY: auto;
-  flex: 1;
+
+.navScroll{
+  flex:1;
+  overflowY:auto;
 }
 
-.navItems::-webkit-scrollbar { width: 4px; }
-.navItems::-webkit-scrollbar-track { background: transparent; }
-.navItems::-webkit-scrollbar-thumb {
+.navScroll::-webkit-scrollbar { width: 4px; }
+.navScroll::-webkit-scrollbar-track { background: transparent; }
+.navScroll::-webkit-scrollbar-thumb {
   background: rgba(255,255,255,0.2);
   border-radius: 4px;
 }
-
 
 .nav{display:flex; flex-direction:column; gap:6px; margin-top:6px;}
 .navItem{
@@ -65,7 +66,8 @@
   background:rgba(255,255,255,0.08);
   margin:8px 20px;
 }
-.bottom{display:flex; flex-direction:column; gap:12px;}
+
+.bottomFixed{display:flex; flex-direction:column; gap:12px;}
 .userRow{display:flex; gap:12px; align-items:center; padding-top:8px;}
 .avatar{width:40px; height:40px; border-radius:999px; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.2)}
 .userMeta{display:flex; flex-direction:column;}
@@ -81,4 +83,5 @@
   cursor:pointer;
 }
 .logout:hover{background:rgba(255,107,107,.18)}
+
 
