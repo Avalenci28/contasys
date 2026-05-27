@@ -49,16 +49,19 @@ export default function Sidebar({ empresaNombre, usuarioNombre, active, onNaviga
 
   return (
     <aside className={styles.sidebar}>
+      
       <div className={styles.top}>
         <div className={styles.logoWrap}>
-          <Logo size={30} />
           <div className={styles.brand}>ContaSys</div>
         </div>
 
         <div className={styles.company}>{empresaNombre || 'Tu empresa'}</div>
 
-        <nav className={styles.nav}>
+        <nav className={styles.navItems}>
+
+          
           {MENU_GROUPS.map((group, groupIdx) => (
+
             <div key={group.title}>
               <div className={styles.sectionTitle}>{group.title}</div>
               {group.items.map((item) => (
@@ -85,6 +88,7 @@ export default function Sidebar({ empresaNombre, usuarioNombre, active, onNaviga
 
       <div className={styles.bottom}>
         <div className={styles.userRow}>
+
           <div className={styles.avatar} aria-hidden="true" />
           <div className={styles.userMeta}>
             <div className={styles.userName}>{usuarioNombre || 'Usuario'}</div>
