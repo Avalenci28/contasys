@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { supabase } from '../../../supabaseClient'
 import useEmpresa from '../../../hooks/useEmpresa'
+import { SkeletonTable } from '../../ui/Skeleton'
 
 function formatMoney(value) {
   const v = Number(value ?? 0)
@@ -578,13 +579,15 @@ export default function Cotizaciones() {
               </tr>
             </thead>
             <tbody>
+
               {loading ? (
                 <tr>
                   <td colSpan={6} style={{ padding: 16, opacity: 0.7, fontWeight: 1000 }}>
-                    Cargando...
+                    <SkeletonTable rows={5} cols={5} />
                   </td>
                 </tr>
               ) : rowsEmpty(cotizaciones) ? (
+
                 <tr>
                   <td colSpan={6} style={{ padding: 16, opacity: 0.7, fontWeight: 1000 }}>
                     No hay cotizaciones.

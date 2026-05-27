@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { supabase } from '../../../supabaseClient'
 import useEmpresa from '../../../hooks/useEmpresa'
+import { SkeletonTable } from '../../ui/Skeleton'
 
 function formatMoney(value) {
   const v = Number(value ?? 0)
@@ -226,6 +227,7 @@ export default function Inventario({ addToast }) {
     return <div style={{ marginLeft: 240, padding: 24 }}>Cargando inventario...</div>
   }
 
+
   const totalPages = Math.max(1, Math.ceil(total / pageSize))
 
   return (
@@ -393,14 +395,22 @@ export default function Inventario({ addToast }) {
               )
             })}
 
-            {rows.length === 0 ? (
+            {loading && rows.length === 0 ? (
+              <tr>
+                <td colSpan={7} style={{ padding: 16, opacity: 0.7, fontWeight: 800 }}>
+                  <SkeletonTable rows={8} cols={6} />
+                </td>
+              </tr>
+            ) : rows.length === 0 ? (
               <tr>
                 <td colSpan={7} style={{ padding: 16, opacity: 0.7, fontWeight: 800 }}>
                   No hay productos para mostrar.
                 </td>
               </tr>
             ) : null}
+
           </tbody>
+
         </table>
       </div>
 

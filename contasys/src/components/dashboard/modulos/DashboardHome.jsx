@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import { supabase } from '../../../supabaseClient'
 import useEmpresa from '../../../hooks/useEmpresa'
+import { SkeletonCard, SkeletonLine } from '../../ui/Skeleton'
+
 
 function formatMoney(value) {
   const v = Number(value ?? 0)
@@ -243,11 +245,18 @@ export default function DashboardHome() {
 
   if (loading) {
     return (
-      <div style={{ marginLeft: 240, padding: 24, background: 'var(--bg-main)' }}>
-        <div style={{ background: 'var(--bg-card)', borderRadius: 12, padding: 18 }}>Cargando KPI...</div>
+      <div style={{ marginLeft: 240, padding: 24, paddingTop: 92 }}>
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:14 }}>
+          <SkeletonCard /><SkeletonCard /><SkeletonCard />
+        </div>
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:14, marginTop:14 }}>
+          <SkeletonCard /><SkeletonCard /><SkeletonCard />
+        </div>
       </div>
     )
   }
+
+
 
   if (error) {
     return (

@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
 import { supabase } from '../../../supabaseClient'
 import useEmpresa from '../../../hooks/useEmpresa'
+import { SkeletonTable } from '../../ui/Skeleton'
 
 const IVA_DEFAULT = 19
+
 
 function formatMoney(value, currency = 'COP') {
   const v = Number(value ?? 0)
@@ -369,13 +371,15 @@ export default function Ventas({ addToast }) {
             </tr>
           </thead>
           <tbody>
+
             {loading ? (
               <tr>
                 <td colSpan={4} style={{ padding: 16, opacity: 0.7, fontWeight: 900 }}>
-                  Cargando...
+                  <SkeletonTable rows={6} cols={4} />
                 </td>
               </tr>
             ) : rowsEmpty(ventas) ? (
+
               <tr>
                 <td colSpan={4} style={{ padding: 16, opacity: 0.7, fontWeight: 900 }}>
                   No hay ventas.

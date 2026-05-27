@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { supabase } from '../../../supabaseClient'
 import useEmpresa from '../../../hooks/useEmpresa'
+import { SkeletonCard, SkeletonTable } from '../../ui/Skeleton'
 
 function formatMoney(value) {
   const v = Number(value ?? 0)
@@ -395,9 +396,24 @@ export default function Deudas() {
     }
   }
 
+
   if (loadingEmpresa) {
     return <div style={{ marginLeft: 240, padding: 24 }}>Cargando deudas...</div>
   }
+
+  if (loading) {
+    return (
+      <div style={{ marginLeft: 240, padding: 24, paddingTop: 92 }}>
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:14 }}>
+          <SkeletonCard /><SkeletonCard /><SkeletonCard /><SkeletonCard />
+        </div>
+        <div style={{marginTop:14}}>
+          <SkeletonTable rows={5} cols={6} />
+        </div>
+      </div>
+    )
+  }
+
 
   const estadoOptions = [
     { value: 'todos', label: 'Todos' },
@@ -529,7 +545,12 @@ export default function Deudas() {
             {loading ? (
               <tr>
                 <td colSpan={8} style={{ padding: 16, opacity: 0.7, fontWeight: 1000 }}>
-                  Cargando...
+                  <div>
+                    <SkeletonCard /><SkeletonCard /><SkeletonCard /><SkeletonCard />
+                    <div style={{ marginTop: 14 }}>
+                      <SkeletonTable rows={5} cols={6} />
+                    </div>
+                  </div>
                 </td>
               </tr>
             ) : rowsEmpty(deudas) ? (
