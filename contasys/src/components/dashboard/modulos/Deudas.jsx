@@ -87,6 +87,8 @@ export default function Deudas() {
   const [modalDeudaErrors, setModalDeudaErrors] = useState({})
   const [deudaEditId, setDeudaEditId] = useState(null)
   const [deudaSaving, setDeudaSaving] = useState(false)
+  const [saving, setSaving] = useState(false)
+
 
   const [modalPagoOpen, setModalPagoOpen] = useState(false)
   const [pagoDeudaId, setPagoDeudaId] = useState(null)
