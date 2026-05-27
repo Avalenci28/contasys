@@ -2,7 +2,10 @@ import { useEffect, useState } from 'react'
 import styles from './TopBar.module.css'
 import NotificationsPanel from './NotificationsPanel'
 
-export default function TopBar({ title, onSearch, dark, toggleDark }) {
+import GlobalSearch from '../ui/GlobalSearch'
+
+export default function TopBar({ title, empresaId, onNavigate, dark, toggleDark }) {
+
   const [now, setNow] = useState(() => new Date())
 
 
@@ -41,11 +44,8 @@ export default function TopBar({ title, onSearch, dark, toggleDark }) {
         </button>
 
         <NotificationsPanel />
-        <input
-          className={styles.search}
-          placeholder="Buscar..."
-          onChange={(e) => onSearch?.(e.target.value)}
-        />
+        <GlobalSearch empresaId={empresaId} onNavigate={onNavigate} />
+
       </div>
 
     </header>

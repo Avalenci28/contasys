@@ -18,6 +18,7 @@ import Catalogo from '../components/dashboard/modulos/Catalogo'
 import useToast from '../hooks/useToast'
 import { ToastContainer } from '../components/ui/Toast'
 import useDarkMode from '../hooks/useDarkMode'
+import useEmpresa from '../hooks/useEmpresa'
 
 
 
@@ -108,6 +109,8 @@ export default function DashboardPage() {
   }
 
 
+  const { empresa } = useEmpresa()
+
   return (
     <div>
 
@@ -124,10 +127,13 @@ export default function DashboardPage() {
 
       <TopBar
         title={titles[active] || 'Dashboard'}
-        onSearch={undefined}
+        empresaId={empresa?.id}
+        onNavigate={setActive}
         dark={dark}
         toggleDark={toggleDark}
       />
+
+
 
 
 
