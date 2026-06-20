@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-const AD_CLIENT_PLACEHOLDER = 'ca-pub-XXXXXXXXXXXXXXXX'
+const AD_CLIENT_PLACEHOLDER = 'ca-pub-3564874198110289'
 
 export default function AdSense({
   slot,
