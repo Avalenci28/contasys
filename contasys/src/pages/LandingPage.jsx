@@ -3,6 +3,7 @@ import Navbar from '../components/Navbar'
 import Hero from '../components/Hero'
 import DashboardPreview from '../components/DashboardPreview'
 import Features from '../components/Features'
+import AdSense from '../components/ui/AdSense'
 import Modules from '../components/Modules'
 import Stats from '../components/Stats'
 import CallToAction from '../components/CallToAction'
@@ -36,9 +37,15 @@ export default function LandingPage({ onAuthSuccess }) {
       <main style={{ flex: 1 }}>
         <Hero onOpenRegister={openRegister} onScrollDemo={() => scrollToId('demo')} />
         <DashboardPreview />
+
+        <AdSense slot="1111111111" style={{ maxWidth: 1100, margin: '3rem auto', minHeight: 90 }} />
+
         <Features />
         <Modules />
         <Stats />
+
+        <AdSense slot="2222222222" style={{ maxWidth: 1100, margin: '3rem auto', minHeight: 90 }} />
+
         <CallToAction onOpenRegister={openRegister} onScrollModules={() => scrollToId('modulos')} />
       </main>
 

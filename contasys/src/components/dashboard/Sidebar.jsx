@@ -1,5 +1,6 @@
 import styles from './Sidebar.module.css'
 import Logo from '../Logo'
+import AdSense from '../ui/AdSense'
 
 const MENU_GROUPS = [
   {
@@ -78,6 +79,14 @@ export default function Sidebar({ empresaNombre, usuarioNombre, active, onNaviga
           </div>
         ))}
       </nav>
+
+      <div style={{ padding: '0 6px', marginBottom: 12 }}>
+        <AdSense
+          slot="3333333333"
+          format="rectangle"
+          style={{ width: '100%', minHeight: 200 }}
+        />
+      </div>
 
       <div className={styles.bottomFixed}>
         <div className={styles.userRow}>
